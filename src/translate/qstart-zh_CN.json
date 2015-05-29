@@ -33,7 +33,8 @@
         "English(en_US)": "英语(en_US)",
         "Set language to English(en_US)": "设置语言为英语(en_US)",
         "Set language to %s(%s)(restart program needed)": "设置语言为%s(%s)(需重启应用)",
-
+        "Restart QStart Required": "需要重启QStart",
+        "Please restart QStart to change to language %s": "请重启QStart来将语言修改为%s",
         "&About": "关于",
         "&Help": "帮助(&H)",
         "About this program": "关于这个程序",

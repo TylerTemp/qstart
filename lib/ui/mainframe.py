@@ -459,7 +459,7 @@ class MainFrame(wx.Frame):
                              'run a command by pressing 3 keys.\n'
                              'You can also pause it in toolbar button, menu '
                              'or popup menu of taskbar icon'))
-        dlg.SetWebsite('TODO: add website')
+        dlg.SetWebsite('https://github.com/TylerTemp/qstart')
 
         # email
         text = wx.StaticText(dlg, -1, label='TylerTemp')
@@ -949,7 +949,7 @@ class MainFrame(wx.Frame):
         return
 
     def OnHelp(self, event):
-        return
+        return os.startfile('https://github.com/TylerTemp/qstart')
 
     # button event handler
     def OnDelete(self, event):

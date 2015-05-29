@@ -30,9 +30,6 @@ sys.path.pop(0)
 logger = logging.getLogger('ui.detail')
 _ = Translate().translate
 
-abs_file = os.path.join(ROOTDIR, 'src', 'config', 'basic_cmd.json')
-with open(abs_file, 'r+', encoding='utf-8') as f:
-    BASIC_CMD = json.load(f)
 
 HOT_KEY_BUTTON_ID = wx.NewId()
 
@@ -54,12 +51,20 @@ class DetailFrame(wx.Frame):
             style=wx.FRAME_TOOL_WINDOW | wx.CAPTION | wx.FRAME_FLOAT_ON_PARENT
         )
 
+        self.BASIC_CMD = {}
+        self.reset_basic_cmd()
         self.SetBackgroundColour('WHITE')
         sizer = self.create_sizer()
         self.SetSizer(sizer)
         self.Fit()
         x, y = self.GetSize()
         self.SetSize((350, y))
+
+    def reset_basic_cmd(self):
+        abs_file = os.path.join(ROOTDIR, 'src', 'config', 'basic_cmd.json')
+        with open(abs_file, 'r+', encoding='utf-8') as f:
+            self.BASIC_CMD.clear()
+            self.BASIC_CMD.update({_(k): v for k, v in json.load(f).items()})
 
     def create_sizer(self):
 
@@ -69,7 +74,7 @@ class DetailFrame(wx.Frame):
         self.combo_cmd_name = wx.ComboBox(
             self,
             -1,
-            choices=list(map(_, BASIC_CMD.keys())),
+            choices=list(map(_, self.BASIC_CMD.keys())),
             style=wx.CB_DROPDOWN)
 
         self.radio_file = wx.RadioButton(self, -1, _('Open/Run a File'),
@@ -195,7 +200,7 @@ class DetailFrame(wx.Frame):
     def OnComboChoice(self, event):
         self.SetFocusCmd()
         self.text_cmd.SetValue(
-            BASIC_CMD[self.combo_cmd_name.GetStringSelection()])
+            self.BASIC_CMD[self.combo_cmd_name.GetStringSelection()])
 
     def OnSetFocus(self, event):
         obj = event.GetEventObject()

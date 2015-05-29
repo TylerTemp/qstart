@@ -14,7 +14,7 @@ with three hotkeys.
 When started the application:
 
 1. Click the button beside `Primary Key`
-2. When `Catch a Hotkey` window popup, enter a hotkey and click `OK`
+2. When `Catch a Hotkey` window popup, puress a hotkey and click `OK`
 3. The same way to set the `Secondary Key` as secondary hotkey
 4. Click the `...` button
 5. The same way to set the `Hotkey`
@@ -25,8 +25,8 @@ When started the application:
 Then you could open the file/run the command you set by pressing `Primary Key`
 \+ `Secondary Key` + `Hotkey` on you keyboard
 
-_Note_: You may get a `Open File - Security Warning`. This is not a issue that
-I can solve. Sorry for that.
+_Note_: You may get a `Open File - Security Warning` on startup.
+This is not a issue that I can solve. Sorry for that.
 
 ## Develop
 

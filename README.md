@@ -31,25 +31,33 @@ This is not a issue that I can solve. Sorry for that.
 ## Develop
 
 1. clone source code:
+
    ```bash
    git clone https://github.com/TylerTemp/qstart.git
    ```
 2. install python3 or python2.7+ at <http://python.org>
 3. install wxpython_phoenix:
+
    ```bash
    pip install -U --pre -f http://wxpython.org/Phoenix/snapshot-builds/ wxPython_Phoenix --trusted-host wxpython.org
    ```
+
    if you use python2 and prefer classic wxpython you can get it from: <http://www.wxpython.org/download.php>
 4. install pywin32 lib. Get it from <http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/>. Note that you need to choose one that fit your system & your python version.
 5. pyHook.
+
    for python2: First you need to install wheel:
+
    ```bash
    pip install wheel
    ```
+
    Then Downland a `.whl` from <http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyhook> and install by
+
    ```bash
    pip install path/to/file.whl
    ```
+
    for python3 please check here: <https://github.com/Answeror/pyhook_py3k.git>
 
 Now you can run it by

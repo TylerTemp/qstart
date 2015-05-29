@@ -74,8 +74,8 @@ class Translate(object):
 
     @lang.setter
     def lang(self, value):
-        if value is None:
-            self._lang = None
+        if value in (None, 'en_US'):
+            self._lang = value
             return
 
         # perfect match

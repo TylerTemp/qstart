@@ -218,7 +218,7 @@ class AboutBox(wx.Dialog):
         self._sizer.Add(line_sizer, 0,
                         wx.EXPAND | wx.LEFT | wx.RIGHT, self.BORDER)
         sizer_item = self._sizer.Add(
-            context, 0, wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT, self.BORDER)
+            context, 0, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT, self.BORDER)
         self._btn_detail[btn.GetId()] = sizer_item
         sizer_item.Show(False)
 
@@ -254,8 +254,7 @@ class AboutBox(wx.Dialog):
                             self.BORDER)
         self._sizer.Layout()
         self.Fit()
-        super(self.__class__, self).ShowModal()
-
+        super(AboutBox, self).ShowModal()
 
 if __name__ == '__main__':
     desc = '''test test test'''

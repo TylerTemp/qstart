@@ -499,13 +499,14 @@ class MainFrame(wx.Frame):
             -1,
             label=_('QStart is a free/libre and open source software under '
                     'GPLv3 license.'))
+        
         link = HyperlinkCtrl(
             dlg,
             label=_('GPLv3 license'),
             url='http://www.gnu.org/licenses/gpl-3.0.txt',
             style=HL_DEFAULT_STYLE)
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(text)
+        sizer.Add(text, 1, wx.EXPAND, 5)
         sizer.Add(link, 0, wx.ALIGN_CENTER)
         dlg.AddDetail(_('License'), sizer, True)
         # dlg.AddDetail(_('disclaimer'), '')
@@ -927,6 +928,8 @@ class MainFrame(wx.Frame):
         key_2 = self.key_2
         current_lang = self.current_lang
         start_on_icon = self.start_on_icon
+
+        logger.debug('current lang: %s', current_lang)
 
         save = {}
         if key_1 != '-1':

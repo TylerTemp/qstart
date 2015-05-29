@@ -116,8 +116,8 @@
         "Trun off QStart Hotkey": "关闭QStart快捷键",
 
         "Set Information":"设置信息",
-        "Hotkey": "热键",
-        "Name": "名称",
+        "Hotkey:": "热键",
+        "Name:": "名称",
         "Open/Run a File": "打开/运行文件",
         "Run a Command": "执行命令",
         "Select a file you want to open": "选择一个你希望打开的文件"

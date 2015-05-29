@@ -45,7 +45,7 @@ class DetailFrame(wx.Frame):
     BACKUP_CMD = ''
     BACKUP_FILE = ''
 
-    def __init__(self, parent, id=-1, title=_('Set Information')):
+    def __init__(self, parent, id=-1, title=''):
         super(DetailFrame, self).__init__(
             parent, id, title,
             style=wx.FRAME_TOOL_WINDOW | wx.CAPTION | wx.FRAME_FLOAT_ON_PARENT

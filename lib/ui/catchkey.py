@@ -50,7 +50,7 @@ class CatchKeyFrame(wx.Frame):
         "Oem_Plus": "=",
     }
 
-    def __init__(self, parent, hook_obj, id=-1, title=_('Catch a Hotkey')):
+    def __init__(self, parent, hook_obj, id=-1, title=''):
         super(CatchKeyFrame, self).__init__(
             parent, id, title,
             style=wx.FRAME_TOOL_WINDOW | wx.CAPTION | wx.FRAME_FLOAT_ON_PARENT

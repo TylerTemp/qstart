@@ -117,8 +117,9 @@ class MainFrame(wx.Frame):
 
         self.reset_scroll_window()
 
-        self.catch_key_frame = CatchKeyFrame(self, self.key_obj)
-        self.detail_frame = DetailFrame(self)
+        self.catch_key_frame = CatchKeyFrame(self, self.key_obj,
+                                             title=_('Catch a Hotkey'))
+        self.detail_frame = DetailFrame(self, title=_('Set Information'))
         self.SetIcon(wx.Icon(os.path.join(ROOTDIR, self.ICON),
                              wx.BITMAP_TYPE_ICO))
         self.taskbar_icon = TaskBarIcon(self)

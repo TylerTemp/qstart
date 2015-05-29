@@ -1,0 +1,124 @@
+{
+    "code": "zh_CN",
+    "name": "中文简体",
+    "englishname": "Chinese Simplified",
+    "translate": {
+        "About QStart": "关于QStart",
+        "email: tylertempdev@gmail.com": "邮箱: tylertempdev@gmail.com",
+        "Author": "作者",
+        "License": "许可协议",
+        "Source Code": "源代码",
+
+        "&File": "文件",
+        "&Open a config": "载入配置(&O)",
+        "Load a config file": "载入一个配置",
+        "S&ave as":"导出配置(&a)",
+        "Export the config": "另存配置",
+        "&Quit": "退出(&Q)",
+
+        "&Config": "配置",
+        "&Language": "语言(&L)",
+        "&Startup on": "启动时状态",
+        "&Window": "显示窗口(&W)",
+        "Taskbar &Icon": "托盘图标(&I)",
+        "Show window when startup": "启动时显示窗口",
+        "Hide in taskbar icon when startup": "启动时隐藏到任务栏",
+        "&Run": "运行(&R)",
+        "&Pause": "暂停(&P)",
+        "&iconify": "托盘化(&I)",
+        "System(%s)": "系统语言(%s)",
+        "Use the system default language(%s)": "使用系统默认语言(%s)",
+        "System(%s)(not support)": "系统语言(%s)(不支持)",
+        "Use the system default language(%s)(not support)": "使用系统默认语言(%s)(不支持)",
+        "English(en_US)": "英语(en_US)",
+        "Set language to English(en_US)": "设置语言为英语(en_US)",
+        "Set language to %s(%s)(restart program needed)": "设置语言为%s(%s)(需重启应用)",
+
+        "&About": "关于",
+        "&Help": "帮助(&H)",
+        "About this program": "关于这个程序",
+        "How to use this": "如何使用",
+
+        "Change Command": "修改命令",
+        "Change File": "修改文件",
+        "Load": "载入",
+        "Import a config file": "载入一个配置",
+        "Export": "导出",
+        "Export a config file": "配置另存为",
+        "iconify": "托盘化",
+        "Minimize to a taskbar icon": "最小化到托盘",
+        "Exit": "退出",
+        "Fully exit program": "完全退出程序",
+        "Run": "运行",
+        "Run QStart": "运行QStart",
+        "Pause": "暂停",
+        "Pause QStart": "暂停QStart",
+
+        "Primary Key": "第一热键",
+        "Secondary Key": "第二热键",
+
+        "Repeated key:\nID: %s\nalias: %s":
+            "重复的按键:\nID: %s\n别名: %s",
+        "Error": "错误",
+        "Failed": "失败",
+        "Unavailable file format:\n": "无效的文件格式:\n",
+
+        "(set)": "(设定)",
+
+        "Change the primary key": "修改第一热键",
+        "Change the secondary key": "修改第二热键",
+        "Name: %s ID: %s": "名称: %s ID: %s",
+        "Change the name of this command": "修改命令名称",
+        "Add a name for this command": "添加命令名称",
+        "Set a hotkey and add a new record": "设定热键并新增一行记录",
+        "Set a hotkey": "设定热键",
+        "Change the hotkey": "修改热键",
+        "Set detail infomation":"设定详细信息",
+        "Delete this line": "删除该行",
+
+        "Running": "正在运行",
+        "Paused": "已暂停",
+
+        "Select a config file": "选择一个配置文件",
+        "Save the config": "储存配置",
+
+        "QStart is a free/libre and open source software under GPLv3 license.":
+            "QStart是一款自由开源软件，基于GPLv3协议发布。",
+        "QStart helps you open a file/program or run a command by pressing 3 keys.\nYou can also pause it in toolbar button, menu or popup menu of taskbar icon":
+            "QStart可以让你通过按下3个键来打开文件/程序或者运行一个命令。\n你可以通过工具栏按钮、菜单和任务栏图标弹出菜单来暂停程序。",
+        "GPLv3 license": "GPLv3协议",
+
+        "Catch a Hotkey": "捕捉热键",
+        "Please enter a key\n": "请按下一个按键\n",
+        "Please enter a key": "请按下一个按键",
+        "ID:\nName:\nAlias:": "ID:\n内部名字:\n别名:",
+        "OK": "确定",
+        "Reset": "重置",
+        "Cancel": "取消",
+
+        "sleep": "睡眠",
+        "shutdown": "关机",
+        "reboot": "重启",
+        "logoff": "注销",
+
+        "You can rename the button in the box above": "你可以在上方重命名按钮名称",
+        "Warning: this key may not be recognizable": "警告: 该按键可能无法识别",
+
+
+        "Started": "已启动",
+        "Click the icon to show/hide window": "单击图标以显示/隐藏",
+        "Show": "显示",
+        "Hide": "隐藏",
+        "Show the window": "显示主界面",
+        "Hide the window": "隐藏主界面",
+        "Trun on QStart Hotkey": "打开QStart快捷键",
+        "Trun off QStart Hotkey": "关闭QStart快捷键",
+
+        "Set Information":"设置信息",
+        "Hotkey": "热键",
+        "Name": "名称",
+        "Open/Run a File": "打开/运行文件",
+        "Run a Command": "执行命令",
+        "Select a file you want to open": "选择一个你希望打开的文件"
+    }
+}

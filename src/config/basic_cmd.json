@@ -1,0 +1,6 @@
+{
+    "shutdown": "C:\\Windows\\System32\\shutdown.exe -s -t 00",
+    "reboot": "C:\\Windows\\System32\\shutdown.exe -r -t 00",
+    "logoff": "C:\\Windows\\System32\\logoff.exe",
+    "sleep": "C:\\Windows\\System32\\rundll32.exe powrprof.dll,SetSuspendState 0,1,0"
+}

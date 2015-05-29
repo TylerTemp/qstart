@@ -1,0 +1,102 @@
+[
+    "91", 
+    "164", 
+    {
+        "-1": {
+            "cmd": "", 
+            "flag": true, 
+            "key": "", 
+            "name": ""
+        }, 
+        "37": {
+            "cmd": "C:\\Windows\\System32\\logoff.exe", 
+            "flag": true, 
+            "key": "\u2190", 
+            "name": "\u6ce8\u9500"
+        }, 
+        "38": {
+            "cmd": "C:\\Windows\\System32\\shutdown.exe -r -t 00", 
+            "flag": true, 
+            "key": "\u2191", 
+            "name": "\u91cd\u542f"
+        }, 
+        "39": {
+            "cmd": "C:\\Windows\\System32\\rundll32.exe powrprof.dll,SetSuspendState 0,1,0", 
+            "flag": true, 
+            "key": "\u2192", 
+            "name": "\u7761\u7720"
+        }, 
+        "40": {
+            "cmd": "C:\\Windows\\System32\\shutdown.exe -s -t 00", 
+            "flag": true, 
+            "key": "\u2193", 
+            "name": "\u5173\u673a"
+        }, 
+        "44": {
+            "cmd": "C:\\Users\\Tyler\\Documents\\SnippingTool.exe", 
+            "flag": false, 
+            "key": "PrntScr", 
+            "name": "\u622a\u5c4f"
+        }, 
+        "65": {
+            "cmd": "D:\\goagent\\local\\goagent.exe", 
+            "flag": false, 
+            "key": "A", 
+            "name": "GoAgengt"
+        }, 
+        "69": {
+            "cmd": "D:\\E.vhd", 
+            "flag": false, 
+            "key": "E", 
+            "name": "E.vhd"
+        }, 
+        "70": {
+            "cmd": "E:\\FireFox\\firefox.exe", 
+            "flag": false, 
+            "key": "F", 
+            "name": "FireFox"
+        }, 
+        "71": {
+            "cmd": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", 
+            "flag": false, 
+            "key": "G", 
+            "name": "Chrome"
+        }, 
+        "72": {
+            "cmd": "E:\\VideoLAN\\vlc.exe mms://live.hitfm.cn/fm887.wsx", 
+            "flag": true, 
+            "key": "H", 
+            "name": "HitFM"
+        }, 
+        "78": {
+            "cmd": "\"C:\\Program Files\\Microsoft Office 15\\root\\office15\\ONENOTE.EXE\"", 
+            "flag": false, 
+            "key": "N", 
+            "name": "OneNote"
+        }, 
+        "79": {
+            "cmd": "python D:\\open.py", 
+            "flag": true, 
+            "key": "O", 
+            "name": "Open"
+        }, 
+        "81": {
+            "cmd": "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe", 
+            "flag": false, 
+            "key": "Q", 
+            "name": "IEx86"
+        }, 
+        "83": {
+            "cmd": "E:\\SublimeText\\sublime_text.exe", 
+            "flag": false, 
+            "key": "S", 
+            "name": "Sublime"
+        }, 
+        "87": {
+            "cmd": "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe", 
+            "flag": false, 
+            "key": "W", 
+            "name": "IEx64"
+        }
+    }
+]

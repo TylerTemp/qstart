@@ -1,7 +1,6 @@
-#coding:utf-8
 from __future__ import unicode_literals
 import wx
-import win32gui # , win32con
+import win32gui
 import logging
 try:
     from wx.adv import TaskBarIcon, EVT_TASKBAR_LEFT_UP
@@ -12,9 +11,9 @@ import sys
 import os
 import imp
 
-if (hasattr(sys, "frozen") # new py2exe
-        or hasattr(sys, "importers") # old py2exe
-        or imp.is_frozen("__main__")):
+if (hasattr(sys, "frozen") or  # new py2exe
+        hasattr(sys, "importers") or  # old py2exe
+        imp.is_frozen("__main__")):
     ROOTDIR = os.path.dirname(sys.executable)
 else:
     ROOTDIR = os.path.dirname(sys.argv[0])
@@ -32,7 +31,7 @@ sys.path.pop(0)
 
 logger = logging.getLogger('ui.taskbaricon')
 _ = Translate().translate
-# FILE = 'taskbar.ico'
+
 
 class TaskBarIcon(TaskBarIcon):
 
@@ -44,18 +43,15 @@ class TaskBarIcon(TaskBarIcon):
         super(TaskBarIcon, self).__init__()
         self.frame = frame
         self.SetIcon(
-            wx.Icon(
-                name=os.path.join(ROOTDIR, self.FILE),
-                type=wx.BITMAP_TYPE_ICO),
-                _('Qstart'))
+            wx.Icon(name=os.path.join(ROOTDIR, self.FILE),
+                    type=wx.BITMAP_TYPE_ICO),
+            _('Qstart'))
 
-        logger.warning('wx.EVT_TASKBAR_LEFT_UP is gone. Why?')
         self.Bind(EVT_TASKBAR_LEFT_UP, self.OnTaskBarLeftClick)
-        # self.Bind(wx.adv.EVT_TASKBAR_CLICK, self.OnTaskBarLeftClick)
-        self.Bind(wx.EVT_MENU, self.frame.OnShow,  id=self.ids[0])
-        self.Bind(wx.EVT_MENU, self.frame.OnHide,  id=self.ids[1])
+        self.Bind(wx.EVT_MENU, self.frame.OnShow, id=self.ids[0])
+        self.Bind(wx.EVT_MENU, self.frame.OnHide, id=self.ids[1])
         self.Bind(wx.EVT_MENU, self.frame.OnRun, id=self.ids[2])
-        self.Bind(wx.EVT_MENU, self.frame.OnStop,  id=self.ids[3])
+        self.Bind(wx.EVT_MENU, self.frame.OnStop, id=self.ids[3])
         self.Bind(wx.EVT_MENU, self.frame.OnQuit, id=self.ids[4])
 
         self.ShowBalloon(_('Started'), _('Click the icon to show/hide window'),
@@ -63,11 +59,15 @@ class TaskBarIcon(TaskBarIcon):
 
     def CreatePopupMenu(self):
         menu = wx.Menu()
-        show = menu.Append(self.ids[0], _('Show'), _('Show the window'), wx.ITEM_RADIO)
-        hide = menu.Append(self.ids[1], _('Hide'), _('Hide the window'), wx.ITEM_RADIO)
+        show = menu.Append(self.ids[0], _('Show'),
+                           _('Show the window'), wx.ITEM_RADIO)
+        hide = menu.Append(self.ids[1], _('Hide'),
+                           _('Hide the window'), wx.ITEM_RADIO)
         menu.AppendSeparator()
-        run  = menu.Append(self.ids[2], _('Run'), _('Trun on QStart Hotkey'), wx.ITEM_RADIO)
-        stop = menu.Append(self.ids[3], _('Pause'), _('Trun off QStart Hotkey'), wx.ITEM_RADIO)
+        run = menu.Append(self.ids[2], _('Run'),
+                          _('Trun on QStart Hotkey'), wx.ITEM_RADIO)
+        stop = menu.Append(self.ids[3], _('Pause'),
+                           _('Trun off QStart Hotkey'), wx.ITEM_RADIO)
         menu.AppendSeparator()
         quit = menu.Append(self.ids[4], _('Exit'), _('Fully exit program'))
 
@@ -90,17 +90,19 @@ class TaskBarIcon(TaskBarIcon):
             self.frame.OnHide(event)
         return
 
-    def ShowBalloon(self, title, text, msec = 0, flags = 0):
+    def ShowBalloon(self, title, text, msec=0, flags=0):
         """
         Show Balloon tooltip
          @param title - Title for balloon tooltip
          @param msg   - Balloon tooltip text
          @param msec  - Timeout for balloon tooltip, in milliseconds
-         @param flags -  one of wx.ICON_INFORMATION, wx.ICON_WARNING, wx.ICON_ERROR
+         @param flags - one of wx.ICON_INFORMATION, wx.ICON_WARNING,
+                        wx.ICON_ERROR
         """
         if self.IsIconInstalled():
             try:
-                self.__SetBalloonTip(self.icon.GetHandle(), title, text, msec, flags)
+                self.__SetBalloonTip(self.icon.GetHandle(), title, text, msec,
+                                     flags)
             except Exception as e:
                 logger.error(e)
 
@@ -117,25 +119,31 @@ class TaskBarIcon(TaskBarIcon):
             infoFlags |= win32gui.NIIF_ERROR
 
         # Show balloon
-        lpdata = (self.__GetIconHandle(),   # hWnd
-                  99,                       # ID
-                  win32gui.NIF_MESSAGE|win32gui.NIF_INFO|win32gui.NIF_ICON, # flags: Combination of NIF_* flags
-                  0,                        # CallbackMessage: Message id to be pass to hWnd when processing messages
-                  hicon,                    # hIcon: Handle to the icon to be displayed
-                  '',                       # Tip: Tooltip text
-                  msg,                      # Info: Balloon tooltip text
-                  msec,                     # Timeout: Timeout for balloon tooltip, in milliseconds
-                  title,                    # InfoTitle: Title for balloon tooltip
-                  infoFlags                 # InfoFlags: Combination of NIIF_* flags
+        lpdata = (self.__GetIconHandle(),  # hWnd
+                  99,  # ID
+                  # flags: Combination of NIF_* flags
+                  win32gui.NIF_MESSAGE | win32gui.NIF_INFO | win32gui.NIF_ICON,
+                  # CallbackMessage: Message id to be pass to hWnd
+                  # when processing messages
+                  0,
+                  hicon,  # hIcon: Handle to the icon to be displayed
+                  '',  # Tip: Tooltip text
+                  msg,  # Info: Balloon tooltip text
+                  # Timeout: Timeout for balloon tooltip, in milliseconds
+                  msec,
+                  title,  # InfoTitle: Title for balloon tooltip
+                  infoFlags  # InfoFlags: Combination of NIIF_* flags
                   )
         win32gui.Shell_NotifyIcon(win32gui.NIM_MODIFY, lpdata)
 
-        self.SetIcon(self.icon, self.tooltip)   # Hack: because we have no access to the real CallbackMessage value
+        # Hack: because we have no access to the real CallbackMessage value
+        self.SetIcon(self.icon, self.tooltip)
 
     def __GetIconHandle(self):
         """
         Find the icon window.
-        This is ugly but for now there is no way to find this window directly from wx
+        This is ugly but for now there is no way to find this window
+        directly from wx
         """
         if not hasattr(self, "_chwnd"):
             try:

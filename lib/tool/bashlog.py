@@ -4,7 +4,7 @@ import logging
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 __all__ = ['getlogger', 'ColorFormatter',
-           'stdoutlogger','streamlogger', 'filelogger',
+           'stdoutlogger', 'streamlogger', 'filelogger',
            'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 # Note: Only terminal which support color can use this
 # Don't use it in file logger

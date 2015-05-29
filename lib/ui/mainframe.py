@@ -9,23 +9,23 @@ import logging
 import wx
 import locale
 try:
-    from wx.adv import HyperlinkCtrl
+    from wx.adv import HyperlinkCtrl, HL_DEFAULT_STYLE
 except ImportError:
-    from wx import HyperlinkCtrl
+    from wx import HyperlinkCtrl, HL_DEFAULT_STYLE
 
 import sys
 import os
 import imp
 
-if (hasattr(sys, "frozen") # new py2exe
-        or hasattr(sys, "importers") # old py2exe
-        or imp.is_frozen("__main__")):
+if (hasattr(sys, "frozen") or  # new py2exe
+        hasattr(sys, "importers") or  # old py2exe
+        imp.is_frozen("__main__")):
     ROOTDIR = os.path.dirname(sys.executable)
 else:
     ROOTDIR = os.path.dirname(sys.argv[0])
 
 try:
-    __file__    # note py2exe can have __file__. refer into the `.exe` file
+    __file__  # note py2exe can have __file__. refer into the `.exe` file
 except NameError:
     LIBDIR = ROOTDIR
 else:
@@ -49,12 +49,13 @@ if not phoenix:
     wx.FD_SAVE = wx.SAVE
     wx.FD_OVERWRITE_PROMPT = wx.OVERWRITE_PROMPT
 
+
 class MainFrame(wx.Frame):
 
     # Main window is shown? (To solve taskbar icon double click problem)
     IS_SHOW = True
     # Is it catching the key?
-    IS_RUN  = True
+    IS_RUN = True
 
     start_on_icon = False
 
@@ -70,8 +71,8 @@ class MainFrame(wx.Frame):
     ID_LASTLINE_DETAIL = wx.NewId()  # last line "..." button
 
     USER_INFO = 'src/config/user_info.json'
-    KEY_INFO  = 'src/config/key_info.json'
-    ABOUT_INFO= 'about.json'
+    KEY_INFO = 'src/config/key_info.json'
+    ABOUT_INFO = 'about.json'
     ICON = 'src/img/main.ico'
     ICO_TITLE = 'src/img/About.png'
     ICO = ICO_TITLE
@@ -82,14 +83,14 @@ class MainFrame(wx.Frame):
     STATUSBAR_WIDTH_3 = [-1, -1, 75]
 
     KEY_LIST = []
-    def __init__(
-        self, key_obj=None, key_info=None, user_info=None,
-        parent=None, id=-1, title=_('QStart'),
-        pos=wx.DefaultPosition, size=(450, 350),
-        style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL
-                ):
 
-        super(self.__class__, self).__init__(parent, id, title, pos, size, style)
+    def __init__(
+            self, key_obj=None, key_info=None, user_info=None,
+            parent=None, id=-1, title=_('QStart'),
+            pos=wx.DefaultPosition, size=(450, 350),
+            style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL):
+
+        super(MainFrame, self).__init__(parent, id, title, pos, size, style)
 
         self.INIT_LANG = translator.lang
         self.current_lang = translator.lang
@@ -118,7 +119,8 @@ class MainFrame(wx.Frame):
 
         self.catch_key_frame = CatchKeyFrame(self, self.key_obj)
         self.detail_frame = DetailFrame(self)
-        self.SetIcon(wx.Icon(os.path.join(ROOTDIR, self.ICON), wx.BITMAP_TYPE_ICO))
+        self.SetIcon(wx.Icon(os.path.join(ROOTDIR, self.ICON),
+                             wx.BITMAP_TYPE_ICO))
         self.taskbar_icon = TaskBarIcon(self)
         self.about_dlg = self.create_about_dlg()
 
@@ -139,8 +141,8 @@ class MainFrame(wx.Frame):
             lang_text = _('Use the system default language(%s)') % sys_lang
         else:
             text = _('System(%s)(not support)') % sys_lang
-            lang_text = (_('Use the system default language(%s)(not support)') %
-                         sys_lang)
+            lang_text = (_('Use the system default language(%s)'
+                           '(not support)') % sys_lang)
 
         default_lang_id = wx.NewId()
         en_lang_id = wx.NewId()
@@ -171,10 +173,9 @@ class MainFrame(wx.Frame):
                  wx.ITEM_RADIO))
 
         return {
-             _('&File'): (
+            _('&File'): (
                 (self.ID_OPEN, _('&Open a config') + '\tCtrl+O',
                  _('Load a config file'), self.OnOpen),
-                # (self.ID_SAVE, u'储存配置(&Save)...\tCtrl+S', u'储存配置', self.OnSave),
                 (self.ID_SAVEAS, _('S&ave as') + '\tCtrl+Shift+S',
                  _('Export the config'), self.OnSaveAs),
                 (wx.ID_SEPARATOR, '', '', None),
@@ -194,14 +195,18 @@ class MainFrame(wx.Frame):
                       lambda evt: self.OnIconStartup(evt, True),
                       wx.ITEM_RADIO))},
                 (wx.ID_SEPARATOR, '', '', None),
-                (self.ID_RUN, _('&Run'), _('Run QStart'), self.OnRun, wx.ITEM_RADIO),
-                (self.ID_STOP, _('&Pause'), _('Pause QStart'), self.OnStop, wx.ITEM_RADIO),
+                (self.ID_RUN, _('&Run'), _('Run QStart'),
+                 self.OnRun, wx.ITEM_RADIO),
+                (self.ID_STOP, _('&Pause'), _('Pause QStart'),
+                 self.OnStop, wx.ITEM_RADIO),
                 (wx.ID_SEPARATOR, '', '', None),
-                (self.ID_TASKBAR, _('&iconify') + '\tCtrl+H', _('Minimize to a taskbar icon'), self.OnHide),
+                (self.ID_TASKBAR, _('&iconify') + '\tCtrl+H',
+                 _('Minimize to a taskbar icon'), self.OnHide),
              ),
-             _('&About'): (
-                       (-1, _('&About'), _('About this program'), self.OnAbout),
-                       (-1, _('&Help'), _('How to use this'), self.OnHelp),
+            _('&About'): (
+                (-1, _('&About'), _('About this program'),
+                 self.OnAbout),
+                (-1, _('&Help'), _('How to use this'), self.OnHelp),
              ),
         }
 
@@ -215,19 +220,25 @@ class MainFrame(wx.Frame):
 
     def create_menu(self, menu_items):
         menu = wx.Menu()
+        if phoenix:
+            append_menu = menu.Append
+        else:
+            # Deprecated
+            append_menu = menu.AppendMenu
         for each_item in menu_items:
             if isinstance(each_item, dict):
                 label = list(each_item.keys())
                 assert len(label) == 1
                 label = label[0]
                 subMenu = self.create_menu(each_item[label])
-                menu.AppendMenu(wx.NewId(), label, subMenu)
+                append_menu(wx.NewId(), label, subMenu)
             else:
                 self.create_menu_item(menu, *each_item)
 
         return menu
 
-    def create_menu_item(self, menu, id, label, status, handler, kind=wx.ITEM_NORMAL):
+    def create_menu_item(self, menu, id, label, status, handler,
+                         kind=wx.ITEM_NORMAL):
         if id == wx.ID_SEPARATOR:
             return menu.AppendSeparator()
 
@@ -272,14 +283,14 @@ class MainFrame(wx.Frame):
 
         if not phoenix:  # wx classic
             # Deprecated
-            addtool = lambda toolId, label, bitmap, bmpDisabled=wx._gdi.Bitmap,\
-                             kind=0, shortHelpString='', longHelpString='',\
-                             clientData=None:\
-                toolbar.AddLabelTool(id=toolId, label=label, bitmap=bitmap,
-                                     bmpDisabled=bmpDisabled, kind=kind,
-                                     shortHelp=shortHelpString,
-                                     longHelp=longHelpString,
-                                     clientData=clientData)
+            def addtool(toolId, label, bitmap, bmpDisabled=wx._gdi.Bitmap,
+                        kind=0, shortHelpString='', longHelpString='',
+                        clientData=None):
+                return toolbar.AddLabelTool(
+                    id=toolId, label=label, bitmap=bitmap,
+                    bmpDisabled=bmpDisabled, kind=kind,
+                    shortHelp=shortHelpString, longHelp=longHelpString,
+                    clientData=clientData)
         else:
             addtool = toolbar.AddTool
         for each in items:
@@ -320,7 +331,7 @@ class MainFrame(wx.Frame):
         BORDER = 5
         label_main_key_1 = wx.StaticText(self, -1, _('Primary Key'))
         label_main_key_2 = wx.StaticText(self, -1, _('Secondary Key'))
-        logger.info('key_1: %s, key_2: %s'%(self.key_1, self.key_2))
+        logger.info('key_1: %s, key_2: %s' % (self.key_1, self.key_2))
 
         self.btn_main_key_1 = wx.Button(self, -1, self.key_info[self.key_1])
         self.btn_main_key_2 = wx.Button(self, -1, self.key_info[self.key_2])
@@ -330,21 +341,28 @@ class MainFrame(wx.Frame):
 
         self.Bind(wx.EVT_BUTTON, self.OnHotkeySet, self.btn_main_key_1)
         self.Bind(wx.EVT_BUTTON, self.OnHotkeySet, self.btn_main_key_2)
-        self.btn_main_key_1.Bind(wx.EVT_ENTER_WINDOW, self.OnEnterMainkeyButton)
-        self.btn_main_key_2.Bind(wx.EVT_ENTER_WINDOW, self.OnEnterMainkeyButton)
+        self.btn_main_key_1.Bind(wx.EVT_ENTER_WINDOW,
+                                 self.OnEnterMainkeyButton)
+        self.btn_main_key_2.Bind(wx.EVT_ENTER_WINDOW,
+                                 self.OnEnterMainkeyButton)
         self.btn_main_key_1.Bind(wx.EVT_LEAVE_WINDOW, self.OnLeaveWidget)
         self.btn_main_key_2.Bind(wx.EVT_LEAVE_WINDOW, self.OnLeaveWidget)
         # self.btn_main_key_2.MoveAfterInTabOrder(self.btn_main_key_1)
         # self.btn_main_key_1.MoveAfterInTabOrder(self.btn_main_key_2)
 
-        main_key_sizer.Add(label_main_key_1, proportion=0, flag=wx.ALL|wx.ALIGN_CENTER, border=BORDER)
-        main_key_sizer.Add(self.btn_main_key_1, proportion=0, flag=wx.ALL|wx.ALIGN_CENTER, border=BORDER)
-        main_key_sizer.Add(label_main_key_2, proportion=0, flag=wx.ALL|wx.ALIGN_CENTER, border=BORDER)
-        main_key_sizer.Add(self.btn_main_key_2, proportion=0, flag=wx.ALL|wx.ALIGN_CENTER, border=BORDER)
-        child_sizer.append((main_key_sizer, 0, wx.ALL|wx.ALIGN_CENTER, 5))
+        main_key_sizer.Add(label_main_key_1, proportion=0,
+                           flag=wx.ALL | wx.ALIGN_CENTER, border=BORDER)
+        main_key_sizer.Add(self.btn_main_key_1, proportion=0,
+                           flag=wx.ALL | wx.ALIGN_CENTER, border=BORDER)
+        main_key_sizer.Add(label_main_key_2, proportion=0,
+                           flag=wx.ALL | wx.ALIGN_CENTER, border=BORDER)
+        main_key_sizer.Add(self.btn_main_key_2, proportion=0,
+                           flag=wx.ALL | wx.ALIGN_CENTER, border=BORDER)
+        child_sizer.append((main_key_sizer, 0, wx.ALL | wx.ALIGN_CENTER, 5))
 
         # separator
-        child_sizer.append((wx.StaticLine(self), 0, wx.EXPAND|wx.LEFT|wx.RIGHT, 10))
+        child_sizer.append((wx.StaticLine(self), 0,
+                            wx.EXPAND | wx.LEFT | wx.RIGHT, 10))
 
         # scrollable window
         self.scroll_window = wx.ScrolledWindow(self, -1)
@@ -352,15 +370,15 @@ class MainFrame(wx.Frame):
         self.scroll_window.SetSizer(scroll_window_sizer)
         self.scroll_window.SetScrollbars(5, 5, 10, 10)
 
-        child_sizer.append((self.scroll_window, 1, wx.EXPAND|wx.ALL^wx.TOP, 15))
+        child_sizer.append((self.scroll_window, 1,
+                            wx.EXPAND | wx.ALL ^ wx.TOP, 15))
 
         return child_sizer
 
     def reset_scroll_window(self):
         sizer = self.scroll_window.GetSizer()
         logger.warning('this method not exits and may cause bug')
-        # sizer.DeleteWindows()
-        sizer.Clear()
+        sizer.Clear(True)
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         for key_id in self.user_info:
@@ -381,7 +399,8 @@ class MainFrame(wx.Frame):
         line_sizer = wx.BoxSizer(wx.HORIZONTAL)
         line_sizer.key_id = key_id
 
-        delete_btn = wx.Button(self.scroll_window, -1, u'×', style=wx.BU_EXACTFIT)
+        delete_btn = wx.Button(self.scroll_window, -1, '\u00d7',  # 'x'
+                               style=wx.BU_EXACTFIT)
 
         if lastline:
             id_key = self.ID_LASTLINE_KEY
@@ -411,11 +430,13 @@ class MainFrame(wx.Frame):
             delete.Bind(wx.EVT_ENTER_WINDOW, self.OnEnterDeleteButton)
             delete.Bind(wx.EVT_LEAVE_WINDOW, self.OnLeaveWidget)
 
-
-        hot_key_name = wx.Button(self.scroll_window, id_key, key_name, style=wx.NO_BORDER)
-        cmd_name = wx.TextCtrl(self.scroll_window, -1, name, size=(5, -1), style=style)
+        hot_key_name = wx.Button(self.scroll_window, id_key, key_name,
+                                 style=wx.NO_BORDER)
+        cmd_name = wx.TextCtrl(self.scroll_window, -1, name, size=(5, -1),
+                               style=style)
         cmd = wx.TextCtrl(self.scroll_window, -1, cmd, style=style)
-        detail = wx.Button(self.scroll_window, id_more, u'...', style=wx.BU_EXACTFIT)
+        detail = wx.Button(self.scroll_window, id_more, '...',
+                           style=wx.BU_EXACTFIT)
 
         hot_key_name.key_id = key_id
         self.Bind(wx.EVT_BUTTON, self.OnHotkeySet, hot_key_name)
@@ -463,11 +484,9 @@ class MainFrame(wx.Frame):
 
         # email
         text = wx.StaticText(dlg, -1, label='TylerTemp')
-        logger.warning('style wx.HL_DEFAULT_STYLE is gone '
-                       'and may cause unexpected result')
         link = HyperlinkCtrl(dlg, label=_('email: tylertempdev@gmail.com'),
-                             url='tylertempdev@gmail.com')  # ,
-                             # style=wx.HL_DEFAULT_STYLE)
+                             url='tylertempdev@gmail.com',
+                             style=HL_DEFAULT_STYLE)
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(text)
         sizer.Add(link)  # , 0, wx.ALIGN_CENTER)
@@ -479,13 +498,11 @@ class MainFrame(wx.Frame):
             -1,
             label=_('QStart is a free/libre and open source software under '
                     'GPLv3 license.'))
-        logger.warning('style wx.HL_DEFAULT_STYLE is gone '
-                       'and may cause unexpected result')
         link = HyperlinkCtrl(
             dlg,
             label=_('GPLv3 license'),
-            url='http://www.gnu.org/licenses/gpl-3.0.txt')  # ,
-            # style=wx.HL_DEFAULT_STYLE)
+            url='http://www.gnu.org/licenses/gpl-3.0.txt',
+            style=HL_DEFAULT_STYLE)
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(text)
         sizer.Add(link, 0, wx.ALIGN_CENTER)
@@ -551,7 +568,7 @@ class MainFrame(wx.Frame):
             else:
                 os.startfile(cmd)
 
-            self.KEY_LIST=[]
+            self.KEY_LIST[:] = ()
         return True
 
     def key_up(self, event):
@@ -582,9 +599,10 @@ class MainFrame(wx.Frame):
         if widget.GetId() == self.ID_LASTLINE_KEY:
             if key_id in self.user_info:
                 wx.MessageBox(
-                    _('Repeated key:\nID: %s\n alias: %s') % (key_id, key_name),
+                    _('Repeated key:\nID: %s\n alias: %s') % (key_id,
+                                                              key_name),
                     _('Error'),
-                    style=wx.OK| wx.ICON_ERROR)
+                    style=wx.OK | wx.ICON_ERROR)
                 return
             self.user_info[key_id] = {
                 "cmd": "",
@@ -592,7 +610,7 @@ class MainFrame(wx.Frame):
                 "key": key_name,
                 "name": "",
             }
-            line_sizer = self.create_line_sizer(key_id = key_id)
+            line_sizer = self.create_line_sizer(key_id=key_id)
             line_sizer.key_id = key_id
             sizer = self.scroll_window.GetSizer()
             sizer.Insert(len(sizer.GetChildren())-1, line_sizer, 0, wx.EXPAND)
@@ -600,12 +618,11 @@ class MainFrame(wx.Frame):
             self.scroll_window.FitInside()
             return
 
-
         if (key_id != orl_key_id) and key_id in self.user_info:
             wx.MessageBox(
                 _('Repeated key:\nID: %s\nalias: %s') % (key_id, key_name),
                 _('Error'),
-                style=wx.OK| wx.ICON_ERROR)
+                style=wx.OK | wx.ICON_ERROR)
             return
 
         widget.SetLabel(key_name)
@@ -616,7 +633,8 @@ class MainFrame(wx.Frame):
             value = self.user_info.pop(orl_key_id)
             self.user_info[key_id] = value
 
-    def change_detail_handler(self, key_id, key_name, cmd, cmd_name, flag, line_sizer):
+    def change_detail_handler(self, key_id, key_name, cmd, cmd_name,
+                              flag, line_sizer):
         self.SetFocus()
         orl_key_id = line_sizer.key_id
 
@@ -628,7 +646,7 @@ class MainFrame(wx.Frame):
                 wx.MessageBox(
                     _('Repeated key:\nID: %s\nalias: %s') % (key_id, key_name),
                     _('Error'),
-                    style=wx.OK| wx.ICON_ERROR)
+                    style=wx.OK | wx.ICON_ERROR)
                 return
             self.user_info[key_id] = {
                 "cmd": cmd,
@@ -636,7 +654,7 @@ class MainFrame(wx.Frame):
                 "key": key_name,
                 "name": cmd_name,
             }
-            line_sizer = self.create_line_sizer(key_id = key_id)
+            line_sizer = self.create_line_sizer(key_id=key_id)
             line_sizer.key_id = key_id
             sizer = self.scroll_window.GetSizer()
             sizer.Insert(len(sizer.GetChildren())-1, line_sizer, 0, wx.EXPAND)
@@ -648,7 +666,7 @@ class MainFrame(wx.Frame):
             wx.MessageBox(
                 _('Repeated key:\nID: %s\nalias: %s') % (key_id, key_name),
                 _('Error'),
-                style=wx.OK| wx.ICON_ERROR)
+                style=wx.OK | wx.ICON_ERROR)
             return
 
         self.user_info[key_id] = {
@@ -674,9 +692,11 @@ class MainFrame(wx.Frame):
             addtool = self.toolbar.AddTool
         else:  # wx classic
             # Deprecated in phoenix
-            addtool = lambda toolId, bitmap, label, shortHelp:\
-                self.toolbar.AddSimpleTool(toolId, label, bitmap, shortHelp)
-        addtool(a.GetId(), a.GetShortHelp(), a.GetNormalBitmap(), a.GetLongHelp())
+            def addtool(toolId, bitmap, label, shortHelp):
+                return self.toolbar.AddSimpleTool(toolId, label, bitmap,
+                                                  shortHelp)
+        addtool(a.GetId(), a.GetShortHelp(),
+                a.GetNormalBitmap(), a.GetLongHelp())
         self.toolbar.Realize()
         if state:
             self.key_obj.HookKeyboard()
@@ -714,7 +734,7 @@ class MainFrame(wx.Frame):
             wx.MessageBox(
                 _('Please restart QStart to change to language %s') % label,
                 _('Restart QStart Required'),
-                style=wx.OK| wx.ICON_INFORMATION)
+                style=wx.OK | wx.ICON_INFORMATION)
 
     def OnChangeText(self, event):
         sizer = event.GetEventObject().GetContainingSizer()
@@ -734,10 +754,10 @@ class MainFrame(wx.Frame):
     def OnEnterText(self, event):
         this_sizer = event.GetEventObject().GetContainingSizer()
         name = this_sizer.GetChildren()[1].GetWindow()
-        cmd  = this_sizer.GetChildren()[2].GetWindow()
+        cmd = this_sizer.GetChildren()[2].GetWindow()
 
-        self.user_info['-1']={
-            "cmd":cmd.GetValue(),
+        self.user_info['-1'] = {
+            "cmd": cmd.GetValue(),
             "flag": True,
             "key": '',
             "name": name.GetValue()
@@ -775,10 +795,10 @@ class MainFrame(wx.Frame):
         if name:
             self.statusbar.SetStatusText(_('Change the name of this command'),
                                          0)
-            self.statusbar.SetStatusText(name,1)
+            self.statusbar.SetStatusText(name, 1)
         else:
             self.statusbar.SetStatusText(_('Add a name for this command'), 0)
-            self.statusbar.SetStatusText('',1)
+            self.statusbar.SetStatusText('', 1)
         self.run_info()
         event.Skip()
 
@@ -794,8 +814,11 @@ class MainFrame(wx.Frame):
         else:
             flag = True
             cmd = ''
-        self.statusbar.SetStatusText(_(('Change Command', 'Change File')[flag]),
-                                     0)
+        if file:
+            text = 'Change File'
+        else:
+            text = 'Change Command'
+        self.statusbar.SetStatusText(_(text), 0)
         self.statusbar.SetStatusText(cmd, 1)
         self.run_info()
         event.Skip()
@@ -805,8 +828,8 @@ class MainFrame(wx.Frame):
         self.statusbar.SetFieldsCount(2)
         self.statusbar.SetStatusWidths(self.STATUSBAR_WIDTH_2)
         if btn.GetId() == self.ID_LASTLINE_KEY:
-            self.statusbar.SetStatusText(_('Set a hotkey and add a new record'),
-                                         0)
+            self.statusbar.SetStatusText(
+                _('Set a hotkey and add a new record'), 0)
         elif btn.key_id == '-1':
             self.statusbar.SetStatusText(_('Set a hotkey'), 0)
         else:
@@ -876,7 +899,7 @@ class MainFrame(wx.Frame):
             except Exception as e:
                 wx.MessageBox(_('Unavailable file format:\n') + str(e),
                               _('Failed'),
-                              style=wx.OK| wx.ICON_ERROR)
+                              style=wx.OK | wx.ICON_ERROR)
             else:
 
                 self.btn_main_key_1.key_id = self.key_1
@@ -961,7 +984,7 @@ class MainFrame(wx.Frame):
 
         if sub_sizer.key_id == '-1':
             self.user_info['-1'] = {
-                'cmd':'',
+                'cmd': '',
                 'flag': True,
                 'key': '',
                 'name': '',
@@ -973,16 +996,18 @@ class MainFrame(wx.Frame):
         sizer = event.GetEventObject().GetContainingSizer()
         key_id = sizer.key_id
         key_name = sizer.GetChildren()[0].GetWindow().GetLabel()
-        cmd      = sizer.GetChildren()[1].GetWindow().GetValue()
+        cmd = sizer.GetChildren()[1].GetWindow().GetValue()
         cmd_name = sizer.GetChildren()[2].GetWindow().GetValue()
-        flag     = True
+        flag = True
         if key_id in self.user_info and key_id != '-1':
             key_name = self.user_info[key_id]['key']
-            cmd      = self.user_info[key_id]['cmd']
+            cmd = self.user_info[key_id]['cmd']
             cmd_name = self.user_info[key_id]['name']
-            flag     = self.user_info[key_id]['flag']
+            flag = self.user_info[key_id]['flag']
 
-        self.detail_frame.reset_frame(key_id, key_name, cmd, cmd_name, flag, sizer, self.change_detail_handler)
+        self.detail_frame.reset_frame(
+            key_id, key_name, cmd, cmd_name, flag, sizer,
+            self.change_detail_handler)
         self.detail_frame.Show(True)
         self.detail_frame.CenterOnParent()
         self.catch_key_frame.Show(False)

@@ -2,13 +2,12 @@ import sys
 import os
 import imp
 
-if (hasattr(sys, "frozen") # new py2exe
-        or hasattr(sys, "importers") # old py2exe
-        or imp.is_frozen("__main__")):
+if (hasattr(sys, "frozen") or  # new py2exe
+        hasattr(sys, "importers") or  # old py2exe
+        imp.is_frozen("__main__")):
     ROOTDIR = os.path.dirname(sys.executable)
 else:
     ROOTDIR = os.path.dirname(sys.argv[0])
-
 
 sys.path.insert(0, ROOTDIR)
 from lib.tool import bashlog

@@ -4,15 +4,15 @@ import sys
 import os
 import imp
 
-if (hasattr(sys, "frozen") # new py2exe
-        or hasattr(sys, "importers") # old py2exe
-        or imp.is_frozen("__main__")):
+if (hasattr(sys, "frozen") or  # new py2exe
+        hasattr(sys, "importers") or  # old py2exe
+        imp.is_frozen("__main__")):
     ROOTDIR = os.path.dirname(sys.executable)
 else:
     ROOTDIR = os.path.dirname(sys.argv[0])
 
 try:
-    __file__ # note py2exe can have __file__. refer into the `.exe` file
+    __file__  # note py2exe can have __file__. refer into the `.exe` file
 except NameError:
     LIBDIR = ROOTDIR
 else:
@@ -57,7 +57,8 @@ class Translate(object):
                         if code in ins._translate:
                             raise ValueError('%s (%s) translation duplicated' %
                                              (path, code))
-                        ins._supported.append({'code': code, 'name': name, 'eng_name': eng_name})
+                        ins._supported.append({'code': code, 'name': name,
+                                               'eng_name': eng_name})
                         ins._translate[code] = translate
                         logger.debug('New translation %s(%s)', code, name)
                 else:

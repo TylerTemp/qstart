@@ -8,9 +8,9 @@ import sys
 import os
 import imp
 
-if (hasattr(sys, "frozen") # new py2exe
-        or hasattr(sys, "importers") # old py2exe
-        or imp.is_frozen("__main__")):
+if (hasattr(sys, "frozen") or  # new py2exe
+        hasattr(sys, "importers") or  # old py2exe
+        imp.is_frozen("__main__")):
     ROOTDIR = os.path.dirname(sys.executable)
 else:
     ROOTDIR = os.path.dirname(sys.argv[0])
@@ -36,6 +36,7 @@ with open(abs_file, 'r+', encoding='utf-8') as f:
 
 HOT_KEY_BUTTON_ID = wx.NewId()
 
+
 class DetailFrame(wx.Frame):
     KEY_ID = '0'
     KEY_NAME = ''
@@ -47,10 +48,11 @@ class DetailFrame(wx.Frame):
     BACKUP_CMD = ''
     BACKUP_FILE = ''
 
-    def __init__(self, parent,id=-1, title=_('Set Information')):
-        wx.Frame.__init__(self, parent, id, title,
-            style=wx.FRAME_TOOL_WINDOW | wx.CAPTION| wx.FRAME_FLOAT_ON_PARENT
-            )
+    def __init__(self, parent, id=-1, title=_('Set Information')):
+        super(DetailFrame, self).__init__(
+            parent, id, title,
+            style=wx.FRAME_TOOL_WINDOW | wx.CAPTION | wx.FRAME_FLOAT_ON_PARENT
+        )
 
         self.SetBackgroundColour('WHITE')
         sizer = self.create_sizer()
@@ -61,7 +63,7 @@ class DetailFrame(wx.Frame):
 
     def create_sizer(self):
 
-        lable_hot_key  = wx.StaticText(self, -1, _('Hotkey:'))
+        lable_hot_key = wx.StaticText(self, -1, _('Hotkey:'))
         self.button_hot_key = wx.Button(self, HOT_KEY_BUTTON_ID, '')
         label_cmd_name = wx.StaticText(self, -1, _('Name:'))
         self.combo_cmd_name = wx.ComboBox(
@@ -70,9 +72,11 @@ class DetailFrame(wx.Frame):
             choices=list(map(_, BASIC_CMD.keys())),
             style=wx.CB_DROPDOWN)
 
-        self.radio_file = wx.RadioButton(self, -1, _('Open/Run a File'), style=wx.RB_GROUP)
+        self.radio_file = wx.RadioButton(self, -1, _('Open/Run a File'),
+                                         style=wx.RB_GROUP)
         self.text_file = wx.TextCtrl(self, -1)
-        self.button_select_file = wx.Button(self, -1, '...', style=wx.BU_EXACTFIT)
+        self.button_select_file = wx.Button(self, -1, '...',
+                                            style=wx.BU_EXACTFIT)
         self.radio_cmd = wx.RadioButton(self, -1, _('Run a Command'))
         self.text_cmd = wx.TextCtrl(self, -1)
 
@@ -107,33 +111,34 @@ class DetailFrame(wx.Frame):
         info_sizer.Add(self.button_hot_key, 0, wx.ALL, 5)
         info_sizer.Add(label_cmd_name, 0, wx.ALL, 5)
         info_sizer.Add(self.combo_cmd_name, 0, wx.ALL, 5)
-        sizer.Add(info_sizer, 0, wx.ALL| wx.EXPAND, 10)
+        sizer.Add(info_sizer, 0, wx.ALL | wx.EXPAND, 10)
 
-        sizer.Add(self.radio_file, 0, wx.LEFT| wx.RIGHT| wx.EXPAND, 15)
+        sizer.Add(self.radio_file, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 15)
 
         file_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        file_sizer.Add(size, 0, wx.LEFT| wx.RIGHT, 5)
-        file_sizer.Add(self.text_file, 1,wx.LEFT| wx.RIGHT, 5)
-        file_sizer.Add(self.button_select_file, 0, wx.LEFT| wx.RIGHT, 5)
-        sizer.Add(file_sizer, 0, wx.LEFT| wx.RIGHT| wx.EXPAND, 10)
+        file_sizer.Add(size, 0, wx.LEFT | wx.RIGHT, 5)
+        file_sizer.Add(self.text_file, 1, wx.LEFT | wx.RIGHT, 5)
+        file_sizer.Add(self.button_select_file, 0, wx.LEFT | wx.RIGHT, 5)
+        sizer.Add(file_sizer, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 10)
 
-        sizer.Add(self.radio_cmd, 0, wx.LEFT| wx.RIGHT| wx.EXPAND, 15)
+        sizer.Add(self.radio_cmd, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 15)
 
         cmd_sizer = wx.BoxSizer(wx.HORIZONTAL)
         cmd_sizer.Add(size, 0, wx.ALL, 5)
         cmd_sizer.Add(self.text_cmd, 1, wx.ALL, 5)
         cmd_sizer.Add(self.button_select_file.GetSize(), 0, wx.ALL, 5)
-        sizer.Add(cmd_sizer, 0, wx.LEFT| wx.RIGHT| wx.EXPAND, 10)
+        sizer.Add(cmd_sizer, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 10)
 
         ok_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        ok_sizer.Add(wx.Size(-1, -1), 1, wx.EXPAND| wx.ALL, 5)
-        ok_sizer.Add(self.button_ok, 0, wx.EXPAND| wx.ALL, 5)
-        ok_sizer.Add(self.button_cancel, 0, wx.EXPAND| wx.ALL, 5)
-        sizer.Add(ok_sizer, 0, wx.LEFT| wx.RIGHT| wx.EXPAND, 10)
-
+        ok_sizer.Add(wx.Size(-1, -1), 1, wx.EXPAND | wx.ALL, 5)
+        ok_sizer.Add(self.button_ok, 0, wx.EXPAND | wx.ALL, 5)
+        ok_sizer.Add(self.button_cancel, 0, wx.EXPAND | wx.ALL, 5)
+        sizer.Add(ok_sizer, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 10)
 
         return sizer
-    def reset_frame(self, key_id, key_name, cmd, cmd_name, flag, line_sizer, ok_handler):
+
+    def reset_frame(self, key_id, key_name, cmd, cmd_name, flag,
+                    line_sizer, ok_handler):
         self.KEY_ID = key_id
         self.KEY_NAME = key_name
         self.CMD = cmd
@@ -141,7 +146,6 @@ class DetailFrame(wx.Frame):
         self.FLAG = flag
         self.LINE_SIZER = line_sizer
         self.ok_handler = ok_handler
-
 
         self.button_hot_key.SetLabel(key_name)
         self.button_hot_key.key_id = key_id
@@ -173,8 +177,11 @@ class DetailFrame(wx.Frame):
     def OnSetHotkey(self, event):
         parent = self.GetParent()
         parent.catch_key_frame.Show(False)
-        parent.catch_key_frame.reset_frame(self.button_hot_key.key_id, parent.key_manager, self.change_key, self.button_hot_key)
-        parent.catch_key_frame.Set_key(self.button_hot_key.key_id, self.button_hot_key.GetLabel())
+        parent.catch_key_frame.reset_frame(
+            self.button_hot_key.key_id, parent.key_manager, self.change_key,
+            self.button_hot_key)
+        parent.catch_key_frame.Set_key(
+            self.button_hot_key.key_id, self.button_hot_key.GetLabel())
         parent.catch_key_frame.catch_key()
         parent.catch_key_frame.Show(True)
         parent.catch_key_frame.SetFocus()
@@ -207,6 +214,7 @@ class DetailFrame(wx.Frame):
         self.text_file.Refresh()
         self.text_cmd.Refresh()
         return
+
     def SetFocusCmd(self):
 
         self.radio_cmd.SetValue(True)
@@ -217,7 +225,6 @@ class DetailFrame(wx.Frame):
         self.text_file.Refresh()
         self.text_cmd.Refresh()
         return
-
 
     def OnActiveFile(self, event):
         obj = event.GetEventObject()
@@ -243,14 +250,19 @@ class DetailFrame(wx.Frame):
         self.KEY_NAME = self.button_hot_key.GetLabel()
         self.CMD_NAME = self.combo_cmd_name.GetValue()
         self.FLAG = self.radio_cmd.GetValue()
-        self.CMD = [self.text_file, self.text_cmd][self.FLAG].GetValue()
+        if self.FLAG:
+            elem = self.text_cmd
+        else:
+            elem = self.text_file
+        self.CMD = elem.GetValue()
         self.Show(False)
         self.GetParent().catch_key_frame.Show(False)
-        self.ok_handler(self.KEY_ID, self.KEY_NAME, self.CMD, self.CMD_NAME, self.FLAG, self.LINE_SIZER)
-
+        self.ok_handler(self.KEY_ID, self.KEY_NAME, self.CMD, self.CMD_NAME,
+                        self.FLAG, self.LINE_SIZER)
 
     def OnCancelButton(self, event):
         self.Show(False)
+
 
 if __name__ == '__main__':
     app = wx.PySimpleApp()
